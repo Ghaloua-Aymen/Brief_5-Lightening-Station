@@ -5,7 +5,7 @@ define('WEBSITE_TITLE', "My Website");
 
 // Set database variables.
 define('DB_TYPE','mysql');
-define('DB_NAME','example');
+define('DB_NAME','lighteningstation');
 define('DB_USER','root');
 define('DB_PASS','');
 define('DB_HOST','localhost');

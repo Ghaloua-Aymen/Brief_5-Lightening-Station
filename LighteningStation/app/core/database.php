@@ -2,79 +2,71 @@
 
 Class Database
 {
-    public function db_connect()
-    {
-        try
-        {
-            $string = DB_TYPE .":host=".DB_HOST.";dbname=".DB_NAME.";";
-            return $db = new PDO($string, 'root', '');
-        }
-        catch(PDOException $e)
-        {
-            die($e->getMessage());
+    private $dbHost = DB_HOST;
+    private $dbUser = DB_USER;
+    private $dbPass = DB_PASS;
+    private $dbName = DB_NAME;
+
+    private $statement;
+    private $dbHandler;
+    private $error;
+
+    public function __construct() {
+        $conn = 'mysql:host=' . $this->dbHost . ';dbname=' . $this->dbName;
+        $options = array(
+            PDO::ATTR_PERSISTENT => true,
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+        );
+        try {
+            $this->dbHandler = new PDO($conn, $this->dbUser, $this->dbPass, $options);
+        } catch (PDOException $e) {
+            $this->error = $e->getMessage();
+            echo $this->error;
         }
     }
     
-    public function read($query, $data = [])
-    {
-        $db = $this->db_connect();
-        $statement = $db->prepare($query);
-
-        $check = $statement->execute($data);
-        if(count($data) == 0)
-        {
-            $statement = $db->query($query);
-            $check = 0;
-            if($statement)
-            {
-                $check = 1;
-            }
-        }
-        else
-        {
-            $check = $statement->execute($data);
-        }
-
-        
-        if($check)
-        {
-            return $statement->fetchAll(PDO::FETCH_OBJ); 
-        }
-        else
-        {
-            return false;
-        }
+    //Allows us to write queries
+    public function query($sql) {
+        $this->statement = $this->dbHandler->prepare($sql);
     }
-    
-    public function write($query, $data = [])
-    {
-        $db = $this->db_connect();
-        $statement = $db->prepare($query);
 
-        $check = $statement->execute($data);
-        if(count($data) == 0)
-        {
-            $statement = $db->query($query);
-            $check = 0;
-            if($statement)
-            {
-                $check = 1;
-            }
+    //Bind values
+    public function bind($parameter, $value, $type = null) {
+        switch (is_null($type)) {
+            case is_int($value):
+                $type = PDO::PARAM_INT;
+                break;
+            case is_bool($value):
+                $type = PDO::PARAM_BOOL;
+                break;
+            case is_null($value):
+                $type = PDO::PARAM_NULL;
+                break;
+            default:
+                $type = PDO::PARAM_STR;
         }
-        else
-        {
-            $check = $statement->execute($data);
-        }
-
-        
-        if($check)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        $this->statement->bindValue($parameter, $value, $type);
     }
-    
+
+    //Execute the prepared statement
+    public function execute() {
+        return $this->statement->execute();
+    }
+
+    //Return an array
+    public function resultSet() {
+        $this->execute();
+        return $this->statement->fetchAll(PDO::FETCH_OBJ);
+    }
+
+    //Return a specific row as an object
+    public function single() {
+        $this->execute();
+        return $this->statement->fetch(PDO::FETCH_OBJ);
+    }
+
+    //Get's the row count
+    public function rowCount() {
+        return $this->statement->rowCount();
+    }
 }
