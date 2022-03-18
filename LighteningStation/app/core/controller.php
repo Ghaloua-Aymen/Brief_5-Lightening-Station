@@ -1,28 +1,21 @@
 <?php
-
-Class Controller
-{
-    protected function view($view, $data = [])
-    {
-        if(file_exists("../app/views/". $view .".php"))
+    //Load the model and the view
+    class Controller {
+        public function model($model) 
         {
-            include "../app/views/". $view .".php";
+            //Require model file
+            require_once '../app/models/' . $model . '.php';
+            //Instantiate model
+            return new $model();
         }
 
-        else
+        //Load the view (checks for the file)
+        public function view($view, $data = []) 
         {
-            include "../app/views/404.php";
+            if (file_exists('../app/views/' . $view . '.php')) {
+                require_once '../app/views/' . $view . '.php';
+            } else {
+                die("View does not exists.");
+            }
         }
     }
-
-    protected function loadModel($model)
-    {
-        if(file_exists("../app/models/". $model .".php"))
-        {
-            include "../app/models/". $model .".php";
-            return $model = new $model();
-        }
-
-        return false;
-    }
-}

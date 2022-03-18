@@ -3,9 +3,21 @@
 
 Class Signup extends Controller
 {
+    
     function index()
     {
         $data['page_title'] = "Signup";
+        $data = [
+            'E-mail' => '',
+            'Password' => '',
+            'First Name' => '',
+            'Last Name' => '',
+            'Address' => '',
+            'N° Phone' => ''
+        ];
+        
         $this->view("signup", $data);
+        var_dump($this->view("signup", $data)); 
     }
+
 }

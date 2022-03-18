@@ -36,8 +36,8 @@
           <li><a class="nav-link scrollto active" href="index#">Home</a></li>
           <li><a class="nav-link scrollto" href="index#about">About</a></li>
           <li><a class="nav-link scrollto" href="index#contact">Contact</a></li>
-          <li><a class="nav-link scrollto" href="index#schedule">Test 1</a></li>
-          <li><a class="nav-link another" href="reservation">Reservation</a></li>
+          <li><a class="nav-link scrollto" href="index#">Test 1</a></li>
+          <li><a class="nav-link" href="reservation">Reservation</a></li>
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav>

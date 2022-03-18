@@ -5,14 +5,14 @@
 <main role="main" id="hero">
   <div id="signin-Container" class="position-absolute top-50 start-50 translate-middle" data-aos="zoom-in" data-aos-delay="100">
     <h1>Login</h1>
-    <form method="post" class="column g-3" action="signin/signin">
+    <form method="POST" class="column g-3" action="signin">
       <div class="col-12 txt_field">
-        <input type="text" name= "email" id="inputEmail" required>
+        <input type="text" name= "E-mail" id="inputEmail" required>
         <span></span>
         <label for="inputEmail">Email</label>
       </div>
       <div class="col-12 txt_field"> 
-        <input type="password" name= "password" id="inputPassword" required>
+        <input type="password" name= "Password" id="inputPassword" required>
         <span></span>
         <label for="inputPassword">Password</label>
       </div>
@@ -25,8 +25,6 @@
     </form>
   </div>
 </main>
-
-<?= '<pre>', print_r($data['email']), print_r($_SERVER['REQUEST_METHOD']), '</pre>' ?>
 
 <!-- FOOTER -->    
 <?php $this->view("footer", $data); ?>
